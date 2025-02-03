@@ -6,48 +6,50 @@ import pages.RegistrationPage;
 public class RegistrationFormTest extends BaseTest {
 
     RegistrationPage registrationPage = new RegistrationPage();
+    TestData testData = new TestData();
 
     @Test
     void successfulFillingFormTest() {
 
         registrationPage.openPage()
                 .removeBanner()
-                .setName("Timur")
-                .setLastName("Vlasov")
-                .setUserEmail("test@email.com")
-                .setUserGender("Male")
-                .setUserNumber("7941643176")
-                .setUserBirthday("03", "October", "1996")
-                .setUserSubjects("English").setUserHobbies("Music")
-                .uploadUserPicture("sample-pic.jpg")
-                .setUserAddress("г. Барнаул, ул. Гоголя, д. 38")
-                .setUserState("Haryana")
-                .setUserCity("Karnal")
+                .setName(testData.userName)
+                .setLastName(testData.lastName)
+                .setUserEmail(testData.userEmail)
+                .setUserGender(testData.userGender)
+                .setUserNumber(testData.userPhone)
+                .setUserBirthday(testData.dayOfBirth, testData.monthOfBirth, testData.yearOfBirth)
+                .setUserSubjects(testData.userSubject)
+                .setUserHobbies(testData.userHobbies)
+                .uploadUserPicture(testData.userImage)
+                .setUserAddress(testData.userAddress)
+                .setUserState(testData.userState)
+                .setUserCity(testData.userCity)
                 .submitRegistrationForm()
-                .checkUserData("Student Name", "Timur Vlasov")
-                .checkUserData("Student Email", "test@email.com")
-                .checkUserData("Gender", "Male")
-                .checkUserData("Mobile", "7941643176")
-                .checkUserData("Date of Birth", "03 October,1996")
-                .checkUserData("Subjects", "English")
-                .checkUserData("Hobbies", "Music")
-                .checkUserData("Picture", "sample-pic.jpg")
-                .checkUserData("Address", "г. Барнаул, ул. Гоголя, д. 38")
-                .checkUserData("State and City", "Haryana Karnal");
+                .checkUserData("Student Name", String.format("%s %s", testData.userName, testData.lastName))
+                .checkUserData("Student Email", testData.userEmail)
+                .checkUserData("Gender", testData.userGender)
+                .checkUserData("Mobile", testData.userPhone)
+                .checkUserData("Date of Birth", String.format("%s %s,%s", testData.dayOfBirth, testData.monthOfBirth, testData.yearOfBirth))
+                .checkUserData("Subjects", testData.userSubject)
+                .checkUserData("Hobbies", testData.userHobbies)
+                .checkUserData("Picture", testData.userImage)
+                .checkUserData("Address", testData.userAddress)
+                .checkUserData("State and City", String.format("%s %s", testData.userState, testData.userCity));
     }
 
     @Test
     void fillFormWithNecessaryFieldsTest() {
 
         registrationPage.openPage()
-                .setName("Timur")
-                .setLastName("Vlasov")
-                .setUserGender("Male")
-                .setUserNumber("7941643176")
+                .setName(testData.userName)
+                .setLastName(testData.lastName)
+                .setUserGender(testData.userGender)
+                .setUserNumber(testData.userPhone)
                 .submitRegistrationForm()
-                .checkUserData("Student Name", "Timur Vlasov")
-                .checkUserData("Gender", "Male")
-                .checkUserData("Mobile", "7941643176");
+                .checkUserData("Student Name", String.format("%s %s", testData.userName, testData.lastName))
+                .checkUserData("Gender", testData.userGender)
+                .checkUserData("Mobile", testData.userPhone);
 
     }
 
@@ -55,13 +57,14 @@ public class RegistrationFormTest extends BaseTest {
     void fillFormWithoutNecessaryFieldsTest() {
 
         registrationPage.openPage()
-                .setUserEmail("test@email.com")
-                .setUserBirthday("03", "October", "1996")
-                .setUserSubjects("English").setUserHobbies("Music")
-                .uploadUserPicture("sample-pic.jpg")
-                .setUserAddress("г. Барнаул, ул. Гоголя, д. 38")
-                .setUserState("Haryana")
-                .setUserCity("Karnal")
+                .setUserEmail(testData.userEmail)
+                .setUserBirthday(testData.dayOfBirth, testData.monthOfBirth, testData.yearOfBirth)
+                .setUserSubjects(testData.userSubject)
+                .setUserHobbies(testData.userHobbies)
+                .uploadUserPicture(testData.userImage)
+                .setUserAddress(testData.userAddress)
+                .setUserState(testData.userState)
+                .setUserCity(testData.userCity)
                 .submitRegistrationForm()
                 .checkTableExist();
     }
