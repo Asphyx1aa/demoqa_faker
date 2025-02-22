@@ -2,12 +2,19 @@ package utils;
 
 import com.github.javafaker.Faker;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomUtils {
 
-    Faker faker = new Faker();
+    static final Faker faker = new Faker();
+
+    final String[] gender = {"Male", "Female", "Other"};
+    final String[] subjects = {"Hindi", "English", "Maths", "Physics", "Chemistry", "Biology", "Computer Science", "Commerce", "Accounting", "Economics", "Arts", "Social Studies", "History", "Civics"};
+    final String[] hobbies = {"Sports", "Reading", "Music"};
+    final String[] files = {"sample-pic.jpg", "sample-2.jpg"};
+    final String[] states = {"NCR", "Uttar Pradesh", "Haryana", "Rajasthan"};
 
     public String getRandomName() {
         return faker.name().firstName();
@@ -22,25 +29,29 @@ public class RandomUtils {
     }
 
     public String getRandomGender() {
-        String[] gender = {"Male", "Female", "Other"};
-
         return faker.options().option(gender);
     }
 
-    public int getRandomDay() {
-        return faker.number().numberBetween(10, 28);
+    public Date getRandomBirthday() {
+        return faker.date().birthday(18, 70);
     }
 
-
-    public String getRandomMonth() {
-        String[] months = {"January", "February", "March", "April",
-                "May", "June", "July", "August", "September", "October", "November", "December"};
-
-        return faker.options().option(months);
+    public String getDay(Date dateOfBirthday) {
+        return new SimpleDateFormat("dd", Locale.US).format(dateOfBirthday);
     }
 
-    public int getRandomYear() {
-        return faker.number().numberBetween(1920, 2020);
+    public int getMonth(Date dateOfBirthday) {
+        String monthFormatted = new SimpleDateFormat("M", Locale.US).format(dateOfBirthday);
+        int month = Integer.parseInt(monthFormatted);
+        return month - 1;
+    }
+
+    public String getFullMonth(Date dateOfBirthday) {
+        return new SimpleDateFormat("LLLL", Locale.US).format(dateOfBirthday);
+    }
+
+    public String getYear(Date dateOfBirthday) {
+        return new SimpleDateFormat("yyyy", Locale.US).format(dateOfBirthday);
     }
 
     public String getRandomPhone() {
@@ -48,22 +59,14 @@ public class RandomUtils {
     }
 
     public String getRandomSubject() {
-        String[] subjects = {"Hindi", "English", "Maths", "Physics", "Chemistry", "Biology",
-                "Computer Science", "Commerce", "Accounting", "Economics", "Arts", "Social Studies", "History",
-                "Civics"};
-
         return faker.options().option(subjects);
     }
 
     public String getRandomHobby() {
-        String[] hobbies = {"Sports", "Reading", "Music"};
-
         return faker.options().option(hobbies);
     }
 
     public String getRandomImage() {
-        String[] files = {"sample-pic.jpg", "sample-2.jpg"};
-
         return faker.options().option(files);
     }
 
@@ -72,8 +75,6 @@ public class RandomUtils {
     }
 
     public String getRandomState() {
-        String[] states = {"NCR", "Uttar Pradesh", "Haryana", "Rajasthan"};
-
         return faker.options().option(states);
     }
 
@@ -88,7 +89,7 @@ public class RandomUtils {
             case "Uttar Pradesh" -> faker.options().option("Agra", "Lucknow", "Merrut");
             case "Haryana" -> faker.options().option("Karnal", "Panipat");
             case "Rajasthan" -> faker.options().option("Jaipur", "Jaiselmer");
-            default -> null;
+            default -> throw new IllegalArgumentException("Unknown city");
         };
     }
 

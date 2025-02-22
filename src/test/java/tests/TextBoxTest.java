@@ -5,7 +5,7 @@ import pages.TextBoxPage;
 
 public class TextBoxTest extends BaseTest {
 
-    TextBoxPage textBoxPage = new TextBoxPage();
+    final TextBoxPage textBoxPage = new TextBoxPage();
 
     @Test
     void successfulFillingFormTest() {

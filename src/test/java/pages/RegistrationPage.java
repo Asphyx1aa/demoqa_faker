@@ -6,7 +6,6 @@ import components.UserTableComponent;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class RegistrationPage {
     private final SelenideElement firstNameInput = $("#firstName"),
@@ -22,7 +21,7 @@ public class RegistrationPage {
             userCitySelect = $("#city"),
             submitButton = $("#submit");
 
-    private SelenideElement CalendarInput = $("#dateOfBirthInput");
+    private final SelenideElement CalendarInput = $("#dateOfBirthInput");
 
     public RegistrationPage openPage() {
         open("/automation-practice-form");
@@ -67,7 +66,7 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage setUserBirthday(String day, String month, String year) {
+    public RegistrationPage setUserBirthday(String day, int month, String year) {
         CalendarInput.click();
         CalendarComponent.setDay(day, month, year);
 
